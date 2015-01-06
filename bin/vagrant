@@ -5,6 +5,9 @@
 # initializing which have historically resulted in stack traces.
 Signal.trap("INT") { abort }
 
+# Expand the path to include our local vagrant
+$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", "lib")))
+
 # Split arguments by "--" if its there, we'll recombine them later
 argv = ARGV.dup
 argv_extra = []
@@ -15,7 +18,7 @@ end
 
 # Fast path the version of Vagrant
 if argv.include?("-v") || argv.include?("--version")
-  require_relative "../lib/vagrant/version"
+  require "vagrant/version"
   puts "Vagrant #{Vagrant::VERSION}"
   exit 0
 end
